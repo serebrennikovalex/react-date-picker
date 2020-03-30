@@ -45,10 +45,21 @@ function getSelectionString() {
 
 function makeOnKeyPress(maxLength) {
   return function onKeyPress(event) {
-    const { value } = event.target;
+    const forbiddenKeys = ['e', 'E', '+', '-'];
+
+    if (!forbiddenKeys.includes(event.key)) {
+      return;
+    }
+
     const selection = getSelectionString();
 
-    if (selection || value.length < maxLength) {
+    if (selection) {
+      return;
+    }
+
+    const { value: nextValue } = event.target;
+
+    if (nextValue.length < maxLength) {
       return;
     }
 
